@@ -1,7 +1,7 @@
 <?php
 # =======================================
 # EDIT THIS TO MATCH YOUR ZONEMINDER SERVER
-$addr = "192.168.1.69";
+$addr = "127.0.0.1";
 $port = "6802";
 $priority="80";
 # DO NOT EDIT BELOW THIS LINE
