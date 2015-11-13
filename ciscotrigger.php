@@ -1,5 +1,6 @@
 <?php
-$xml=simplexml_load_file("test.xml") or die("Error: Cannot create object");
-$device=$xml->EventNotificationAlert[0]->deviceName;
-echo $device."|on|1|Motion|Motion";
+$dataPOST = trim(file_get_contents('php://input'));
+$xmlData = simplexml_load_string($dataPOST) or die("Error: Cannot create object");
+$device=$xmlData->EventNotificationAlert[0]->deviceName;
+file_put_contents("log.txt",$device."|on|1|Motion|Motion");
 ?>
