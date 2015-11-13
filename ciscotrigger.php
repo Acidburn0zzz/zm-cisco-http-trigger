@@ -3,6 +3,7 @@
 # EDIT THIS TO MATCH YOUR ZONEMINDER SERVER
 $addr = "127.0.0.1";
 $port = "6802";
+$priority = "80";
 # DO NOT EDIT BELOW THIS LINE
 # =======================================
 $log="";
@@ -18,7 +19,7 @@ if ($state==1){
 	#Create a dynamic eventType based on the XML.  1=IO Alarm port(and include which IO port), 2=Motion.  We will add this to the reason part of the zmtrigger feature
 	$eventType="";
 	if ($type==1){
-		$portID=$xmlData->EventNotificaitonAlert[0]->inputIOPortID;
+		$portID=$xmlData->EventNotificationAlert[0]->inputIOPortID;
 		$eventType="Alarm on IO ".$portID;
 	}
 	elseif ($type==2){
