@@ -3,6 +3,7 @@
 # EDIT THIS TO MATCH YOUR ZONEMINDER SERVER
 $addr = "192.168.1.69";
 $port = "6802";
+$priority="80";
 # DO NOT EDIT BELOW THIS LINE
 # =======================================
 $log="";
@@ -41,7 +42,7 @@ if ($state==1){
 	}
 	#else if connected, send the trigger parameters in the format listed on the wiki: monitor#|action|priority|Cause|text|showtext
 	else {
-		$command=$device."|on|1|".$eventType."|".$eventType;
+		$command=$device."|on+1|$priority|".$eventType."|".$eventType;
 		$log=date("Y-m-d H:m:s",time()).": Connection sucessful, sending command to zmtrigger.pl $command\n";
 		file_put_contents("log.txt",$log,FILE_APPEND | LOCK_EX);
 		fwrite($client,$command);
