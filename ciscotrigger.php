@@ -18,7 +18,7 @@ if ($state==1){
 	#Create a dynamic eventType based on the XML.  1=IO Alarm port(and include which IO port), 2=Motion.  We will add this to the reason part of the zmtrigger feature
 	$eventType="";
 	if ($type==1){
-		$portID=$xmlData->EventNotificaitonAlert[0]->inputIOPortID;
+		$portID=$xmlData->EventNotificationAlert[0]->inputIOPortID;
 		$eventType="Alarm on IO ".$portID;
 	}
 	elseif ($type==2){
