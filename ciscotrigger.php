@@ -1,4 +1,10 @@
 <?php
+# =======================================
+# EDIT THIS TO MATCH YOUR ZONEMINDER SERVER
+$addr = "192.168.1.69";
+$port = "6802";
+# DO NOT EDIT BELOW THIS LINE
+# =======================================
 $log="";
 #Grab POST data and trim, then load the string into xml loader
 $dataPOST = trim(file_get_contents('php://input'));
@@ -24,9 +30,27 @@ if ($state==1){
 	#Send information to log
 	$log=date("Y-m-d H:m:s",time()).": Device ID ".$device." (".$_SERVER["REMOTE_ADDR"].") reported ".$eventType."\n";
 	file_put_contents("log.txt",$log,FILE_APPEND | LOCK_EX);
+	#Begin socket connection attempt
+	$log=date("Y-m-d H:m:s",time()).": Attempting to open socket to IP ".$addr.":".$port."\n";
+	file_put_contents("log.txt",$log,FILE_APPEND | LOCK_EX);
+	$client = stream_socket_client("tcp://$addr:$port", $errno, $errorMessage);
+	#if connection failed to connect, send error
+	if ($client === false) {
+		$log=date("Y-m-d H:m:s",time()).": Error connecting to $addr:$port: $errorMessage\n";
+		file_put_contents("log.txt",$log,FILE_APPEND | LOCK_EX);
+	}
+	#else if connected, send the trigger parameters in the format listed on the wiki: monitor#|action|priority|Cause|text|showtext
+	else {
+		$command=$device."|on|1|".$eventType."|".$eventType;
+		$log=date("Y-m-d H:m:s",time()).": Connection sucessful, sending command to zmtrigger.pl $command\n";
+		file_put_contents("log.txt",$log,FILE_APPEND | LOCK_EX);
+		fwrite($client,$command);
+		fclose($client);
+	}
 }
 #If eventState does not equal 1, log that something tried to send information but didn't have an eventState of 1
 else {
-	
+	$log=date("Y-m-d H:m:s",time()).": IP ".$_SERVER["REMOTE_ADDR"]." accessed this page, but did not send an eventState=1\n";
+	file_put_contents("log.txt",$log,FILE_APPEND | LOCK_EX);
 }
 ?>
