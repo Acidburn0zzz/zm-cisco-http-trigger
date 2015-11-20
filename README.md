@@ -20,3 +20,5 @@ HOW TO USE
 5)Go to Event and create an every day all the time schedule and click add.
 
 6)set Trigger Event to Enable and select what triggers you want enabled and put a check in the HTTP box and click save.
+
+This script is provided as-is and has no warranty.
